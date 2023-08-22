@@ -11,6 +11,9 @@ def client(logsDf):
         .withColumn("RubyClass", split(col('Ruby_Class'), ' ')[1]) \
         .withColumn("Comments", split(col('Ruby_Class'), ":")[1]).drop('Ruby_Class')
     # logsDf1.show(truncate=False)
+    return logsDf1
+
+def number_oflines(logsDf1):
     """
     count the number of lines DataFrame contains
     """
@@ -18,13 +21,14 @@ def client(logsDf):
     return count1
     # print( logsDf1.count())
 
+def warning_messages(logsDf1):
     """
     count of number of warning messages 
     """
     warn = logsDf1.filter(logsDf1.logLevel == 'WARN').count()
     return warn
     # print(warn)
-
+def api_client_repo(logsDf1):
     """
     Get the count of api_client repositories
     """
@@ -34,7 +38,7 @@ def client(logsDf):
 
     # logsDf1.filter("logsDf1.Comments == '%Successful request%' ").show()
     # logsDf1.filter(logsDf1.Comments == '%Successful request%').show()
-
+def https_request(logsDf1):
     """
     which client did most HTTPS request
     """
@@ -44,6 +48,7 @@ def client(logsDf):
     # print(httpReq['Downloader_ID'], httpReq['count'])
     return (httpReq['Downloader_ID'], httpReq['count'])
 
+def failed_https(logsDf1):
     """
     which client did most failed HTTPS request
     """
@@ -51,4 +56,5 @@ def client(logsDf):
     # print(failedReq)
     df5 = failedReq.select('Downloader_ID', 'count').orderBy(desc('count')).first()
     # print(df5['Downloader_ID'], df5['count'])
-    return (df5['Downloader_ID'], df5['count'])
+    # return (df5['Downloader_ID'], df5['count'])
+    return df5
